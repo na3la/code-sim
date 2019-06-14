@@ -1,7 +1,6 @@
 """
 karp-rabin-hash algorithm implementation of greedy tiling
 
-Trent Schwartz
 
 """
 
