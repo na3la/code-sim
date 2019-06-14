@@ -10,7 +10,6 @@ A java lexer class
 # create github
 import javac_parser
 import os.path
-import time
 from collections import Counter
 
 
@@ -25,8 +24,7 @@ class tokenizer():
         self.summaryDict = dict()
 
     def folderRead(self):
-
-        print(time.clock())
+        
         java = javac_parser.Java()
         dirlist = os.listdir(self.inputFileFolder)
         if self.inputFileFolder[-1] is not "/":
@@ -40,7 +38,7 @@ class tokenizer():
         for key in self.outputDict:
             self.outputDict[int(key)].append(
                 self.summarize(self.outputDict[key]))
-        print(time.clock())
+        
 
     def summarize(self, tlist):
         c = Counter()
