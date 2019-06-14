@@ -1,8 +1,6 @@
 """
 tokenizer.py
 
-Trent Schwartz
-
 A java lexer class
 
 
