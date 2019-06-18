@@ -1,9 +1,10 @@
 """
 karp-rabin-hash algorithm implementation of greedy tiling
 
-
 """
 
+# TODO make mask function
+# TODO test..
 
 from collections import deque
 
@@ -83,6 +84,7 @@ class krhash():
 
             if len(psubstr
                    ) == self.s or self.pmask[x] and len(psubstr) == self.s:
+
                 start = self.hashtable.get(psubstr)
                 if start is not None:
                     for elem in start:
@@ -101,21 +103,21 @@ class krhash():
                                                         elem + k]:
                                 k += 1
                                 # TODO FIX THE RESTART OF SCANNER WITH NEW S
-                            if k > (2 * self.s):
-                                self.s = k
+                                if k > (2 * self.s):
+                                    self.s = k
                                 # restart scanner withself.s== k
-                                self.genHashTbl()
-                            else:
-                                if self.mml.get(k):
-                                    self.mml[k].append((si, elem, k))
-                                    self.maskArray(si, elem, k)
-
+                                    self.genHashTbl()
                                 else:
-                                    self.mml[k] = deque([(si, elem, k)])
-                                    self.maskArray(si, elem, k)
+                                    if self.mml.get(k):
+                                        self.mml[k].append((si, elem, k))
+                                        self.maskArray(si, elem, k)
+
+                                    else:
+                                        self.mml[k] = deque([(si, elem, k)])
+                                        self.maskArray(si, elem, k)
                                 # rec pattrn start, text start, and length of
                                 # match
-                            psubstr = ""
+                                psubstr = ""
         if self.s > 1:
-            self.s = (self.s - 1)
+            self.s -= 1
             self.genHashTbl()

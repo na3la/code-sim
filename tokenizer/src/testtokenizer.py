@@ -1,17 +1,13 @@
 """
 tokenizer.py
 
-Trent Schwartz
 
 A java lexer class
 
 
 """
-# TODO implement simpler version of sring tiling
-# create github
 import javac_parser
 import os.path
-import time
 from collections import Counter
 
 
@@ -27,7 +23,6 @@ class tokenizer():
 
     def folderRead(self):
 
-        print(time.clock())
         java = javac_parser.Java()
         dirlist = os.listdir(self.inputFileFolder)
         if self.inputFileFolder[-1] is not "/":
@@ -37,15 +32,30 @@ class tokenizer():
                 with open(str(self.inputFileFolder + item), 'r+') as ifile:
                     self.outputDict[int(item[:6])] = []
                     for line in ifile:
-                        self.outputDict[int(item[:6])].extend(java.lex(line))
+                        for tup in java.lex(line):
+                            if tup[0] != 'EOF':
+                                self.outputDict[int(item[:6])].append(tup)
+
+        self._postprocess(self.outputDict)
+
         for key in self.outputDict:
             self.outputDict[int(key)].append(
-                self.summarize(self.outputDict[key]))
-        print(time.clock())
+                self._summarize(self.outputDict[key]))
 
-    def summarize(self, tlist):
+    def _summarize(self, tlist):
         c = Counter()
         for elem in tlist:
             c[elem[0]] += 1
 
         return c
+
+    def _postprocess(self, tlist):
+        tstring = ""
+        rstring = ""
+        for k, v in self.outputDict.items():
+            for elem in v:
+                tstring += str(elem[0])  # + " ")
+                rstring += elem[1]
+            self.summaryDict[k] = (tstring, rstring)
+            tstring = ""
+            rstring = ""
