@@ -8,6 +8,7 @@ class gst():
         self.length_of_tokens_tiled = 0
         self.minmatchlen = minmatchlen
         self.matchlist = dict()
+        self.gen_prop = 0
 
     def maskArray(self, p, t, maxmatch):
 
@@ -60,4 +61,8 @@ class gst():
                         for index in range(maxmatch):
                             self.maskArray(elem[0], elem[1], elem[2])
                         self.length_of_tokens_tiled += maxmatch
-#        self.ret()
+
+    def gprop(self):
+        for key in self.matchlist:
+            self.gen_prop += key * len(self.matchlist[key])
+

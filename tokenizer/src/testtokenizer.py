@@ -12,7 +12,9 @@ from collections import Counter
 
 
 class tokenizer():
-    """class tokenizer takes an input folder path, creates a tokenizer obj,
+    """
+    ASSUMES FIXED FILE NAMES START WITH A LETTER IE f!!!!!!!!!!!!!!!!!!!!
+    class tokenizer takes an input folder path, creates a tokenizer obj,
     and an output dictionary with each files lexed result held in a multidim
     string array"""
 
@@ -22,7 +24,6 @@ class tokenizer():
         self.summaryDict = dict()
 
     def folderRead(self):
-
         java = javac_parser.Java()
         dirlist = os.listdir(self.inputFileFolder)
         if self.inputFileFolder[-1] is not "/":
@@ -30,11 +31,11 @@ class tokenizer():
         for item in dirlist:
             if os.path.isfile(self.inputFileFolder + item):
                 with open(str(self.inputFileFolder + item), 'r+') as ifile:
-                    self.outputDict[int(item[:6])] = []
+                    self.outputDict[int(item[1:7])] = []
                     for line in ifile:
                         for tup in java.lex(line):
                             if tup[0] != 'EOF':
-                                self.outputDict[int(item[:6])].append(tup)
+                                self.outputDict[int(item[1:7])].append(tup)
 
         self._postprocess(self.outputDict)
 

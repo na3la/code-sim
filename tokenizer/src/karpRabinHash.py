@@ -5,7 +5,7 @@ karp-rabin-hash algorithm implementation of greedy tiling
 """
 
 
-from collections import deque
+# from collections import deque
 
 
 class krhash():
@@ -31,8 +31,6 @@ class krhash():
 
         self.mml = dict()
         self.hashtable = dict()
-        self.inputText = list(itext)
-        self.pattern = list(pattern)
         self.tmask = [0] * len(self.inputText)
         self.pmask = [0] * len(self.pattern)
 
@@ -102,20 +100,24 @@ class krhash():
                                 k += 1
                                 # TODO FIX THE RESTART OF SCANNER WITH NEW S
                             if k > (2 * self.s):
+                                self.reset()
                                 self.s = k
-                                # restart scanner withself.s== k
                                 self.genHashTbl()
+                                # return k
+                                # restart scanner withself.s== k
+            #       This line needs to RETURN not RECURSE             self.genHashTbl()
                             else:
                                 if self.mml.get(k):
                                     self.mml[k].append((si, elem, k))
                                     self.maskArray(si, elem, k)
 
                                 else:
-                                    self.mml[k] = deque([(si, elem, k)])
+                                    self.mml[k] = [(si, elem, k)]
                                     self.maskArray(si, elem, k)
                                 # rec pattrn start, text start, and length of
                                 # match
                             psubstr = ""
-        if self.s > 1:
+                        breakpoint()
+        if self.s > 10:
             self.s = (self.s - 1)
             self.genHashTbl()
