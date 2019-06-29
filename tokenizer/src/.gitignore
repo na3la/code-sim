@@ -3,3 +3,4 @@ testhash.py
 writeutil.py
 __pycache__/*
 oldcsvs
+.ipynb_checkpoints/*
