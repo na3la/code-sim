@@ -32,8 +32,8 @@ class codematch():
 
     def _gen_counters(self):
         """
-        Populate Counters with token as token and 2D array holding indices of
-        token location and count of token within string
+        Populate Counters with token as key and 2D array holding indices of
+        token location and count of token within string as value.
 
         For loop parameters:
         index -> enumeration number. It is the index of the token within the
@@ -41,7 +41,7 @@ class codematch():
         token -> token from token array.
 
         End Result:
-        two Counters which have tokens made up of tokens and indexs which hold
+        two Counters which have keys made up of tokens and values which hold
         the location of that token within the the string and the number of
         times the token is seen within the string.
         """
