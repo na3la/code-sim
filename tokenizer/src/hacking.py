@@ -1,4 +1,5 @@
 import testtokenizer
+import time
 from collections import Counter
 
 # should match_dict be sorted by key/index?
@@ -22,8 +23,14 @@ class codematch():
         self._t_vec_2_counter = Counter()
         self.match_dict = dict()
 
-    def _gen_counters(self):
+    def _check_hash(self):
+        if hash(''.join(self._token_vec_1)) == hash(''.join(
+                self._token_vec_2)) or not len(self._token_vec_1) or not len(
+                    self._token_vec_2):
+            return 0
+        return 1
 
+    def _gen_counters(self):
         """
         Populate Counters with token as token and 2D array holding indices of
         token location and count of token within string
@@ -54,7 +61,6 @@ class codematch():
             self._t_vec_2_counter[token] = [[index], 1]
 
     def _gen_match_dict(self):
-
         """
         Populate match_dict with common locations of tokens. Iterate through
         vec_1_counter and check for presence of token in vec_2_counter. If
@@ -70,12 +76,16 @@ class codematch():
                 _t_vec_1_set = set(self._t_vec_1_counter.get(token)[0])
                 _t_vec_2_set = set(index[0])
                 _intersect = _t_vec_1_set.intersection(_t_vec_2_set)
+            else:
+                continue
             if _intersect is not None:
                 for index in _intersect:
                     self.match_dict[index] = token
 
     def match(self):
 
+        if not self._check_hash():
+            return (0)
         self._gen_counters()
         self._gen_match_dict()
 
