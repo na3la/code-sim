@@ -45,7 +45,7 @@ def main():
                 c2[x].append(0)
                 c3[x].append(0)
                 continue
-            mmarr[x].append(1 / (max(gs.matchlist.keys())))
+            mmarr[x].append((max(gs.matchlist.keys())))
             c2[x].append(len(gs.matchlist.values()))
 
             if not gs.gen_prop:
@@ -59,12 +59,12 @@ def main():
             #                        len(token.summaryDict[y][0]) /
             #                        (gs.length_of_tokens_tiled * 2)) - 1
 
-    #       c3[x].append(prop_match_btw_files)
+            c3[x].append(prop_match_btw_files)
 
     dat = pd.DataFrame(mmarr, index=list(testsrc), columns=list(testsrc))
     dat.to_csv(csvfile + ".csv", sep=',')
-    # dat3 = pd.DataFrame(c3, index=list(testsrc), columns=list(testsrc))
-    # dat3.to_csv(csvfile + "3.csv", sep=',')
+    dat3 = pd.DataFrame(c3, index=list(testsrc), columns=list(testsrc))
+    dat3.to_csv(csvfile + "3.csv", sep=',')
 
 
 main()

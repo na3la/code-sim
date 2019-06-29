@@ -55,8 +55,8 @@ class tokenizer():
         rstring = ""
         for k, v in self.outputDict.items():
             for elem in v:
-                tstring += str(elem[0]) + " "
-                rstring += elem[1] + " "
+                tstring += str(elem[0])  # + " ")
+                rstring += elem[1]
             self.summaryDict[k] = (tstring, rstring)
             tstring = ""
             rstring = ""
