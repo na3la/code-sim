@@ -30,7 +30,17 @@ class codematch():
             return 0
         return 1
 
-    def _gen_counters(self):
+    def _gen_counters(self, counter, token_vec):
+
+        for index, token in enumerate(token_vec):
+            if counter.get(token):
+                counter[token][0].append(index)
+                counter[token][1] += 1
+                continue
+            counter[token] = [[index], 1]
+        return counter
+
+    def _gen_counters_helper(self):
         """
         Populate Counters with token as key and 2D array holding indices of
         token location and count of token within string as value.
@@ -45,20 +55,8 @@ class codematch():
         the location of that token within the the string and the number of
         times the token is seen within the string.
         """
-
-        for index, token in enumerate(self._token_vec_1):
-            if self._t_vec_1_counter.get(token):
-                self._t_vec_1_counter[token][0].append(index)
-                self._t_vec_1_counter[token][1] += 1
-                continue
-            self._t_vec_1_counter[token] = [[index], 1]
-
-        for index, token in enumerate(self._token_vec_2):
-            if self._t_vec_2_counter.get(token):
-                self._t_vec_2_counter[token][0].append(index)
-                self._t_vec_2_counter[token][1] += 1
-                continue
-            self._t_vec_2_counter[token] = [[index], 1]
+        self._gen_counters(self._t_vec_1_counter, self._token_vec_1)
+        self._gen_counters(self._t_vec_2_counter, self._token_vec_2)
 
     def _gen_match_dict(self):
         """
@@ -73,8 +71,9 @@ class codematch():
 
         for token, index in self._t_vec_1_counter.items():
             if self._t_vec_2_counter.get(token):
-                _t_vec_1_set = set(self._t_vec_1_counter.get(token)[0])
-                _t_vec_2_set = set(index[0])
+                _t_vec_1_set = set(index[0])
+                _t_vec_2_set = set(self._t_vec_2_counter.get(token)[0])
+
                 _intersect = _t_vec_1_set.intersection(_t_vec_2_set)
             else:
                 continue
@@ -86,7 +85,21 @@ class codematch():
 
         if not self._check_hash():
             return (0)
-        self._gen_counters()
+        self._gen_counters_helper()
         self._gen_match_dict()
 
-        return self.match_dict
+        with open('txt.txt', 'a') as f:
+            f.write("RAW STRINGS \n")
+            f.write(' '.join(self._raw_vec_1) + '\n')
+            f.write(' '.join(self._token_vec_1) + '\n')
+            f.write(' '.join(self._raw_vec_2) + '\n')
+            f.write(' '.join(self._token_vec_2) + '\n')
+            f.write(" MATCHING \n")
+            if self.match_dict.keys():
+                for indx in range(max(self.match_dict.keys())):
+                    if self.match_dict.get(indx):
+                        f.write(self._raw_vec_1[indx] + ' ')
+                    else:
+                        f.write("X ")
+
+        # return self.match_dict
