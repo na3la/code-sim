@@ -2,7 +2,10 @@ import re
 import os
 import os.path
 
-# TODO ADD DOCSTRINGS
+# parames used: linestart = 'publicInstTuplelookup(StringID){'
+
+# self.lineend = /**
+# TODO IMPROVE CODE QUALITY/REFACTOR
 
 
 class fmt:
@@ -36,43 +39,45 @@ class fmt:
                 continue
             f = open(self.pathtoold + filename, 'r')
             self.__TEST__(f, filename)
-            f.close()
 
     def __TEST__(self, f, filename):
-        comments_slash1 = re.compile(r'//\s?.*')
-        comments_slash_ast2 = re.compile(r'(/\**.*\*/)|/\*.*?')
-        comments_slash_end3 = re.compile(r'.*?\*/')
-        comments_only_ast4 = re.compile(r'^\*.*')
         skip_next_line = False
         begin_write = False
-
+        test = re.compile(r'//\s?.*')
         for line in f:
-
             if skip_next_line:
-                skip_next_line = False
                 continue
-
             line = line.strip()
-
-            if comments_slash1.search(line):
-                line = comments_slash1.sub('', line)
-            if comments_slash_ast2.search(line):
-                line = comments_slash_ast2.sub('', line)
-            if comments_slash_end3.search(line):
-                line = comments_slash_end3.sub('', line)
-            if comments_only_ast4.search(line):
+            if test.search(line):
+                line = test.sub('', line)
+           # if re.search(r'/*\*.*?\*/', line):  # no match
+           #     line = re.sub(r'/*\*.*?\*/', '', line)
+            elif re.search(r'/\*\*.*', line):
+                line = re.sub(r'/\*\*.*', '', line)
+                check = False
+            if re.search(r'.*?\*/', line):
+                line = re.sub(r'.*?\*/', '', line)
                 continue
-            if not begin_write and line.find(
-                    self.linestart) != -1 and not line.find('{'):
-                skip_next_line = True
+            if re.search(r'[\s]+\*.*', line):# and not check:
+                continue
+            #if re.search(r'[^/\*]\*[^/].*', line):  # no match
+             #   line = re.search(r'[^/\*]\*[^/].*', line)
+              #  continue
+           # elif re.search(r'\*/', line):  # no match
+            #    check = True
+             #   re.sub(r'.*?\*/', '', line)
+              #  continue
+            if not begin_write and line.find(self.linestart) != -1 and line.find('{'):
                 begin_write = True
-            elif not begin_write and line.find(self.linestart) != -1:
+            elif not begin_write and line.find(self.linestart) != -1 and not line.find('{'):
+                skip_next_line = True
                 begin_write = True
 
             elif begin_write and (line.find(self.lineend) != -1
                                   or line.find('public') != -1):
+                begin_write = False
                 break
-            if begin_write:
+            elif begin_write:
                 self._write_fixed(line, filename)
 
     def _write_fixed(self, text, filename):
@@ -85,17 +90,18 @@ class fmt:
 
 
 if __name__ == "__main__":
-    linestart = input("start string: ")
-    lineend = input("end string: ")
-    pathtofixed = input("fixed file path: ")
-    pathtoold = input("pathtoold to read from: ")
+    #    linestart = input("start string: ")
+    #    lineend = input("end string: ")
+    #    pathtofixed = input("fixed file path: ")
+    #    pathtoold = input("pathtoold to read from: ")
+    #    format(linestart, lineend, pathtofixed, pathtoold)
+    # linestart = re.compile(r'eval\s?\(table table\)\s?.*?{\s*', re.I)
+
+    # lineend = re.compile(r'.(?=@Override public\s?string\s?tostring\(\))',
+    #                     re.I)
+    linestart = 'eval('
+    lineend = '@Override'
+    pathtofixed = 'javahw3/newfixed'
+    pathtoold = 'javahw3/'
     a = fmt(linestart, lineend, pathtofixed, pathtoold)
     a.format()
-
-# EXAMPLE
-#    linestart = 'lookup('
-#    lineend = '@Override'
-#    pathtofixed = 'javahw1/newfixed/'
-#    pathtoold = 'javahw1/'
-#    a = fmt(linestart, lineend, pathtofixed, pathtoold)
-#    a.format()
