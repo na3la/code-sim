@@ -3,6 +3,9 @@ import time
 from collections import Counter
 
 # should match_dict be sorted by key/index?
+# TODO CONVERT CHECK_HASH TO CREATE HASHING DS IN HERE OR OTHER FILE
+# also figure out dendrogram starting at zero and building up --> why the
+# distance of 1 worked as no match
 
 
 class codematch():
@@ -27,6 +30,13 @@ class codematch():
         if hash(''.join(self._token_vec_1)) == hash(''.join(
                 self._token_vec_2)) or not len(self._token_vec_1) or not len(
                     self._token_vec_2):
+            f = open('DUPLICATES.txt', 'a')
+            f.write("\n\n RAW STRINGS \n\n")
+            f.write(' '.join(self._raw_vec_1) + '\n')
+            f.write(' '.join(self._raw_vec_2) + '\n')
+            f.write(' '.join(self._token_vec_1) + '\n')
+            f.write(' '.join(self._token_vec_2) + '\n\n')
+            f.close()
             return 0
         return 1
 
@@ -88,13 +98,15 @@ class codematch():
         self._gen_counters_helper()
         self._gen_match_dict()
 
+        print('ABOVE WITH')
         with open('txt.txt', 'a') as f:
-            f.write("RAW STRINGS \n")
+            print('UNDER WITH')
+            f.write("\n RAW STRINGS \n")
             f.write(' '.join(self._raw_vec_1) + '\n')
-            f.write(' '.join(self._token_vec_1) + '\n')
             f.write(' '.join(self._raw_vec_2) + '\n')
+            f.write(' '.join(self._token_vec_1) + '\n')
             f.write(' '.join(self._token_vec_2) + '\n')
-            f.write(" MATCHING \n")
+            f.write("\n MATCHING \n")
             if self.match_dict.keys():
                 for indx in range(max(self.match_dict.keys())):
                     if self.match_dict.get(indx):
@@ -102,4 +114,4 @@ class codematch():
                     else:
                         f.write("X ")
 
-        # return self.match_dict
+        return self.match_dict

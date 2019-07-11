@@ -4,13 +4,13 @@ import testtokenizer as tk
 
 def __main__():
 
-    src_folder = "../javahw1/fixed"  # input(">> source file folder? ")
+    src_folder = "../javahw1/newfixed/"  # input(">> source file folder? ")
 
     token = tk.tokenizer(src_folder)
     token.folderRead()
     user_id_list = sorted(token.summaryDict.keys())  # need to be sorted?
     TEMP_MATCH_ARR = []
-
+    breakpoint()
     for index, uid in enumerate(user_id_list):
 
         token_vec_1 = token.summaryDict[uid][0]
@@ -30,3 +30,7 @@ def __main__():
                 print(len(match.keys()) / len(token_vec_2))
 
     return TEMP_MATCH_ARR
+
+
+if __name__ == '__main__':
+    __main__()
