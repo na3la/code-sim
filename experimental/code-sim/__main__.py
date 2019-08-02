@@ -31,7 +31,7 @@ def main():
             gs.gprop()
 
             if not len(gs.matchlist.keys()):
-                #mmarr[x].append(0)
+                # mmarr[x].append(0)
                 c2[x].append(0)
                 c3[x].append(0)
                 continue
@@ -44,8 +44,9 @@ def main():
             if gs.length_of_tokens_tiled == 0:
                 breakpoint()
             ratio = (len(d.get(y)) + len(d.get(z)) / 2)
-            mmarr[x].append(abs(((gs.length_of_tokens_tiled * 2) /
-                                 (len(d.get(y)) + len(d.get(z))))-1))
+            mmarr[x].append(
+                abs(((gs.length_of_tokens_tiled * 2) /
+                     (len(d.get(y)) + len(d.get(z)))) - 1))
             c2[x].append(len(gs.matchlist.values()))
             c3[x].append((ratio / gs.length_of_tokens_tiled) - 1)
 
@@ -62,6 +63,5 @@ def main():
     dat3.to_csv("token_avg_ltt" + ".csv", sep=',')
     #dat2 = pd.DataFrame(c2, index=list(fileuuids), columns=list(fileuuids))
     #dat2.to_csv("unadjmatchlist.csv", sep=',')
-
 
 main()

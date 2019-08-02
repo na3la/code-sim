@@ -35,7 +35,7 @@ class fmt:
             if os.path.isdir(filename) or filename[-5:] != ".java":
                 continue
             f = open(self.pathtoold + filename, 'r')
-            self.__TEST__(f, filename)
+            self.__TEST__(f.readlines(), filename)
             f.close()
 
     def __TEST__(self, f, filename):
@@ -45,6 +45,7 @@ class fmt:
         comments_only_ast4 = re.compile(r'^\*.*')
         skip_next_line = False
         begin_write = False
+        buff = []
 
         for line in f:
 
@@ -52,18 +53,6 @@ class fmt:
                 skip_next_line = False
                 continue
 
-            breakpoint()
-
-            line = line.strip()
-
-            if comments_slash1.search(line):
-                line = comments_slash1.sub('', line)
-            if comments_slash_ast2.search(line):
-                line = comments_slash_ast2.sub('', line)
-            if comments_slash_end3.search(line):
-                line = comments_slash_end3.sub('', line)
-            if comments_only_ast4.search(line):
-                continue
             if not begin_write and line.find(
                     self.linestart) != -1 and not line.find('{'):
                 skip_next_line = True
@@ -75,11 +64,22 @@ class fmt:
                                   or line.find('public') != -1):
                 break
             if begin_write:
-                self._write_fixed(line, filename)
+                buff.append(line)
+
+        self._truncate(buff)
+        self._write_fixed("".join(buff), filename)
+
+    def _truncate(self, buff):
+
+        for line in buff[::-1]:
+            if "}" not in line:
+                buff.remove(line)
+            else:
+                return
 
     def _write_fixed(self, text, filename):
         fixed = open(self.pathtofixed + 'f' + filename, 'a')
-        fixed.write(text + '\n')
+        fixed.write(text)
         fixed.close()
 
     def format(self):
