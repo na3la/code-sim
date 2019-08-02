@@ -52,8 +52,6 @@ class fmt:
                 skip_next_line = False
                 continue
 
-            breakpoint()
-
             line = line.strip()
 
             if comments_slash1.search(line):

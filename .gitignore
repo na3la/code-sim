@@ -1,2 +1,5 @@
 __pycache__
 krh/*
+.ipynb_checkpoints
+.ipynb_checkpoints/*
+*.csv

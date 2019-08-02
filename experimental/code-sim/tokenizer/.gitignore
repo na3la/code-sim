@@ -1,0 +1,6 @@
+java*
+__pycache__/*
+oldtokenizer.py
+tokenizer.py
+featureselect.txt
+.ipynb_checkpoints/*

@@ -61,6 +61,7 @@ def main():
 
             c3[x].append(prop_match_btw_files)
 
+    breakpoint()
     dat = pd.DataFrame(mmarr, index=list(testsrc), columns=list(testsrc))
     dat.to_csv(csvfile + ".csv", sep=',')
     dat3 = pd.DataFrame(c3, index=list(testsrc), columns=list(testsrc))
