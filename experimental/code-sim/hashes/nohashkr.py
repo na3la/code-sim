@@ -23,7 +23,9 @@ class gst():
         print(self.matchlist)
 
     def equality_check(self, TO_a, TO_b):
-        return TO_a.token == TO_b.token
+        # test
+        return TO_a == TO_b
+        #return TO_a.token == TO_b.token
         #return TO_a.__eq__(TO_b)
 
     def scanPattern(self):

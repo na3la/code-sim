@@ -2,7 +2,7 @@ import os
 import re
 from dataclasses import dataclass
 
-import javac_parser
+from cpp import caller
 
 
 @dataclass(init=True, repr=True, eq=True)
@@ -16,18 +16,16 @@ def __str_format(file_read_str):
 
 
 def _open_lex(paths_to_file, uuid_list):
-    java = javac_parser.Java()
     for path in paths_to_file:
         try:
             f = open(path, 'r')
-            f_string = f.read()
-            yield f_string
-            uuid_list.append(re.search(r'\d{6}', f.name)[0])
-            yield from java.lex(__str_format(f_string))
+            name, txt = f.name, f.read()
             f.close()
-
+            yield txt
+            uuid_list.append(re.search(r'\d{6}', name)[0])
+            yield from caller(__str_format(txt), name)
         except FileNotFoundError:
-            print(path + " not found")
+            print("could not find {}", path)
 
 
 def _file_feeder(path_to_folder):
@@ -60,12 +58,14 @@ def _option():
     return _readutil()
 
 
-def _create_token_data(uuid_list, obj_matrix, raw_string_list):
+def _create_token_data(uuid_list, obj_matrix, raw_list):
     temp_list = []
     for x in _open_lex(_file_feeder(_option()), uuid_list):
+
         if type(x) is str:
-            raw_string_list.append(x)
+            raw_list.append(x)
             continue
+
         elif x[0].__eq__('EOF'):
             obj_matrix.append(temp_list.copy())
             temp_list.clear()
@@ -74,6 +74,17 @@ def _create_token_data(uuid_list, obj_matrix, raw_string_list):
 
 
 def dict_builder():
-    uuid_list, obj_matrix, raw_string_list = [], [], []
-    _create_token_data(uuid_list, obj_matrix, raw_string_list)
-    return dict(zip(uuid_list, obj_matrix)), dict(zip(uuid_list, raw_string_list))
+    uuid_list, obj_matrix, raw_list = [], [], []
+    _create_token_data(uuid_list, obj_matrix, raw_list)
+    # raw_list = diff_build()
+    return dict(zip(uuid_list, obj_matrix)), dict(zip(uuid_list, raw_list))
+
+
+def diff_build():
+    raw_list = []
+    for x in os.listdir('/home/anon/notebooks/datasets/os_c_hw/hw11/code_dir/'):
+        f = open('/home/anon/notebooks/datasets/os_c_hw/hw11/code_dir/'+ x, 'r')
+        raw_list.append(f.read())
+        f.close()
+    return raw_list
+

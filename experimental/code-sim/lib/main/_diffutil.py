@@ -24,21 +24,26 @@ def _gen_diff(uuid_a, uuid_b, fpath_a, fpath_b):
     if not os.path.isdir("diffs"):
         os.mkdir("diffs")
     if not os.path.isfile("diffs/" + str(uuid_a) + "_" + str(uuid_b) +
-                          "_diff.txt") and os.path.isfile("diffs/" +
-                                                          str(uuid_b) + "_" +
-                                                          str(uuid_a) +
-                                                          "_diff.txt"):
-        f = open("diffs/" + str(uuid_a) + "_" + str(uuid_b) + "_diff.txt")
+                          "_diff.txt") and not os.path.isfile("diffs/" + str(
+                              uuid_b) + "_" + str(uuid_a) + "_diff.txt"):
+        f = open("diffs/" + str(uuid_a) + "_" + str(uuid_b) + "_diff.txt", 'w')
         f.write(_cat(_diff(fpath_a, fpath_b)).stdout.decode())
         f.close()
 
-def gen_diff(folder_path):
-   # TODO generate combinations_with_replacement of os.listdir(folderpath)
-   # TODO feed filepaths and uuids to _gen_diff ((uuids --> filename[1:7]))
-   # TODO create CSV in same layout as others with values == # lines in diffs
-   # TODO test
-   # TODO test pycparser
+
+def _gen_comb(dir_list):
+    return combinations_with_replacement(dir_list, 2)
 
 
+def gen_diff(
+        folder_path="/home/anon/notebooks/code-sim/tokenizer/javahw1/newfixed/"
+):
+
+    for pair in _gen_comb(os.listdir(folder_path)):
+        _gen_diff(pair[0][1:7], pair[1][1:7], folder_path + pair[0],
+                  folder_path + pair[1])
 
 
+gen_diff()
+# TODO create CSV in same layout as others with values == # \n in _cat.stdout
+# TODO test pycparser
