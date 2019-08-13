@@ -30,7 +30,6 @@ def main():
             gs = gst(token_dict.get(y), token_dict.get(z), 1)
             gs.scanPattern()
             l = greedy_string_tiling(token_dict.get(y), token_dict.get(z))
-            gs.gprop()
 
             c2[x].append(abs(return_ratio(raw_dict.get(y), raw_dict.get(z))-1))
 
