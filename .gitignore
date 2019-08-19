@@ -3,3 +3,4 @@ krh/*
 .ipynb_checkpoints
 .ipynb_checkpoints/*
 *.csv
+old/*

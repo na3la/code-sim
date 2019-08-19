@@ -657,6 +657,8 @@ class Preprocessor(object):
         # Replace trigraph sequences
         t = trigraph(input)
         lines = self.group_lines(t)
+        test = "".join(lines)
+        breakpoint()
 
         if not source:
             source = ""
@@ -674,6 +676,7 @@ class Preprocessor(object):
                 if tok.type not in self.t_WS:
                     break
             if tok.value == '#':
+                pass
                 # Preprocessor directive
 
                 # insert necessary whitespace instead of eaten tokens
@@ -957,6 +960,7 @@ def caller(input, f_name):
     while True:
         tok = p.token()
         if not tok:
+            
             yield ("EOF", "", )
             break
         yield (tok.type, tok.value, )

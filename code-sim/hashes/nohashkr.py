@@ -1,14 +1,13 @@
 class gst():
     def __init__(self, itext, pattern, minmatchlen):
 
-        self.itext = itext.replace(" ", "")
-        self.pattern = pattern.replace(" ", "")
+        self.itext = itext
+        self.pattern = pattern
         self.tmask = [0] * len(self.itext)
         self.pmask = [0] * len(self.pattern)
         self.length_of_tokens_tiled = 0
         self.minmatchlen = minmatchlen
         self.matchlist = dict()
-        self.gen_prop = 0
 
     def maskArray(self, p, t, maxmatch):
 
@@ -21,6 +20,10 @@ class gst():
 
     def ret(self):
         print(self.matchlist)
+
+    def equality_check(self, TO_a, TO_b):
+        return TO_a.token == TO_b.token
+        #return TO_a.__eq__(TO_b)
 
     def scanPattern(self):
 
@@ -38,10 +41,12 @@ class gst():
                     if self.tmask[t[0]]:
                         continue
                     j = 0
+                   # if (len(self.itext) == len(self.pattern) == maxmatch):
+                   #     return 0
                     while len(self.pattern) > (p[0] + j) and len(
-                            self.itext) > (t[0] + j) and self.pattern[
-                                p[0] +
-                                j] == self.itext[t[0] + j] and not self.pmask[
+                            self.itext) > (t[0] + j) and self.equality_check(
+                                self.pattern[p[0] + j],
+                                self.itext[t[0] + j]) and not self.pmask[
                                     p[0] + j] and not self.tmask[t[0] + j]:
                         j += 1
                     if j == maxmatch:
@@ -65,4 +70,3 @@ class gst():
     def gprop(self):
         for key in self.matchlist:
             self.gen_prop += key * len(self.matchlist[key])
-

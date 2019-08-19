@@ -1,8 +1,10 @@
 import os
 import re
 from dataclasses import dataclass
+from format_comments import format_comments
 
-from cpp import caller
+# from cpp import caller
+from cpp_test import caller
 
 
 @dataclass(init=True, repr=True, eq=True)
@@ -18,7 +20,9 @@ def __str_format(file_read_str):
 def _open_lex(paths_to_file, uuid_list):
     for path in paths_to_file:
         try:
-            f = open(path, 'r')
+            f = open(path, 'r+')
+            format_comments(f)
+            f.seek(0)
             name, txt = f.name, f.read()
             f.close()
             yield txt
@@ -26,6 +30,7 @@ def _open_lex(paths_to_file, uuid_list):
             yield from caller(__str_format(txt), name)
         except FileNotFoundError:
             print("could not find {}", path)
+            exit()
 
 
 def _file_feeder(path_to_folder):
