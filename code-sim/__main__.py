@@ -16,7 +16,7 @@ def main():
     dat2 = pd.DataFrame(index=sorted(token_dict.keys()),
                         columns=sorted(token_dict.keys()))
     dat_diff = pd.DataFrame(index=sorted(token_dict.keys()),
-                        columns=sorted(token_dict.keys()))
+                            columns=sorted(token_dict.keys()))
 
     for pair in fileuuids:
 
