@@ -1,9 +1,9 @@
 import pandas as pd
 from tc.dict_builder import dict_builder
 from gst.new_kr import take_text_pattern
-from _diff_lib_util import return_ratio
+from lib._diff_lib_util import return_ratio
 from itertools import combinations_with_replacement
-import distance_metrics as dm
+import lib.distance_metrics as dm
 
 
 def main():

@@ -1,7 +1,7 @@
 import re
 from tc.format_comments import format_comments
 from tc.str_format import _str_format
-from cpp_test import caller
+from tc.cpp_test import caller
 
 """
 This function generates source code files. It opens the file, formats the
