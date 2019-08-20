@@ -1,5 +1,5 @@
 import pandas as pd
-from tokenizationC import dict_builder
+from tc.dict_builder import dict_builder
 from gst.new_kr import take_text_pattern
 from _diff_lib_util import return_ratio
 from itertools import combinations_with_replacement
