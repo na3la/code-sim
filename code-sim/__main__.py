@@ -1,9 +1,12 @@
+from itertools import combinations_with_replacement
+
 import pandas as pd
-from tc.dict_builder import dict_builder
+from sklearn import preprocessing
+
+import lib.distance_metrics as dm
 from gst.new_kr import take_text_pattern
 from lib._diff_lib_util import return_ratio
-from itertools import combinations_with_replacement
-import lib.distance_metrics as dm
+from tc.dict_builder import dict_builder
 
 
 def main():
@@ -17,6 +20,8 @@ def main():
                         columns=sorted(token_dict.keys()))
     dat_diff = pd.DataFrame(index=sorted(token_dict.keys()),
                             columns=sorted(token_dict.keys()))
+
+    diff_ratio_check = pd.DataFrame(columns=["ID", "Diff", "ltt_ldd", "avg_ltt"])
 
     for pair in fileuuids:
 
@@ -36,7 +41,29 @@ def main():
 
         dat_diff[y][x] = dat_diff[x][y]
 
-    breakpoint()
+        # small diff (identical == 1) small ltt_ldd (identical == 0)
+        if not dat[x][y]:
+            continue
+#        if dat[x][y] < .3:
+#            diff_ratio_check["ID"].append([x, y])
+#            diff_ratio_check["Diff"].append(dat_diff[x][y])
+#            diff_ratio_check["ltt_ldd"].append(dat[x][y])
+#            diff_ratio_check["avg_ltt"].append(dat2[x][y])
+        #if dat_diff[x][y] - dat[x][y] < .5:
+        #    diff_ratio_check.append(
+        #        (pair, dat_diff[x][y], dat[x][y], dat2[x][y]))
+
+    # scale dm.avg_ltt w/ min-max
+    min_max_scaler = preprocessing.MinMaxScaler(feature_range=(0, 1), copy=False)
+
+    min_max_scaler.fit_transform(dat2)
+
+    dat.to_csv('ltt_ldd.csv', sep=',')
+    dat2.to_csv('avg_ltt.csv', sep=',')
+    dat_diff.to_csv('diff.csv', sep=',')
+
+    f = open('diff_ratio.txt', 'w')
+    f.write(diff_ratio_check.__str__())
 
 
 main()
