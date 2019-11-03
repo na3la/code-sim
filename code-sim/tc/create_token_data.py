@@ -3,8 +3,6 @@ from tc.open_lex import _open_lex
 from tc.file_feeder import _file_feeder
 from tc.folder_location import _option
 
-# TODO change type comparison to isinstance
-# TODO add return statement for consistency
 """
 This function calls _open_lex(...) which generates a tokenized version of
 each source code file, as well as a non-tokenized string version.
@@ -22,7 +20,7 @@ def _create_token_data(uuid_list, obj_matrix, raw_list):
     temp_list = []
     for x in _open_lex(_file_feeder(_option()), uuid_list):
 
-        if type(x) is str:
+        if isinstance(x, str):
             raw_list.append(x)
             continue
 
@@ -31,3 +29,4 @@ def _create_token_data(uuid_list, obj_matrix, raw_list):
             temp_list.clear()
             continue
         temp_list.append(TokenObject(x[0], x[1]))
+    return

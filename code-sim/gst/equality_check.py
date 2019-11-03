@@ -3,6 +3,12 @@
 
 def equality_check_using(pattern_token, text_token):
 
-    # return pattern_token.token == text_token.token
+    """
+        Args:
+            pattern_token -> the current pattern token
+            text_token -> the current text token
 
-    return pattern_token.__eq__(text_token)
+        returns: Boolean indicating equality
+    """
+
+    return pattern_token == text_token
