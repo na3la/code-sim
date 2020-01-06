@@ -64,6 +64,6 @@ def main():
 
     f = open('diff_ratio.txt', 'w')
     f.write(diff_ratio_check.__str__())
-
-
+    f.close()
+    
 main()
