@@ -1,3 +1,0 @@
-Empty DataFrame
-Columns: [ID, Diff, ltt_ldd, avg_ltt]
-Index: []

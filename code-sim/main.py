@@ -44,5 +44,12 @@ def main():
     dat2.to_csv('avg_ltt.csv', sep=',')
     dat_diff.to_csv('diff.csv', sep=',')
 
+<<<<<<< HEAD:code-sim/main.py
 
+=======
+    f = open('diff_ratio.txt', 'w')
+    f.write(diff_ratio_check.__str__())
+    f.close()
+    
+>>>>>>> c3ea865d9df046ed0a7cd04e5ee898a598445368:code-sim/__main__.py
 main()
