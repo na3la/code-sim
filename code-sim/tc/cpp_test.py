@@ -837,8 +837,6 @@ class Preprocessor(object):
                 break
             except IOError:
                 pass
-        else:
-            print("Couldn't find '%s'" % filename)
 
     # ----------------------------------------------------------------------
     # read_include_file()
