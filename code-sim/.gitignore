@@ -4,6 +4,7 @@ krh/*
 *.csv
 .csconfig
 *.txt
+backups/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
