@@ -17,11 +17,18 @@ Tiling is implemented according to pseudocode of Karp-Rabin greedy string tiling
     * writes DataFrame to CSV file
 
 
+## To Run
 
-tc/ -> contains tokenization defs for C code.
-gst/ -> contains greedy string tiling defs.
-lib/ -> contains general utility files, currently only the distance metrics
-backups/ -> unused/unmaintained old code, for reference only. 
+**Assumes source code files will be named <int uuid of length 6>.c**
 
-TODO: improve efficiency of tiling alg; Look at parallelizing, DP, vectorizing
-operations.
+- ``` pip install -r requirements.txt ```
+- ``` ./codesim ``` or ``` python codesim```
+
+
+
+## Directory Structure
+
+* tc/ -> contains tokenization defs for C code.
+* gst/ -> contains greedy string tiling defs.
+* lib/ -> contains general utility files, currently only the distance metrics
+
