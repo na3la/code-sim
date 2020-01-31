@@ -1,3 +1,5 @@
+#! /usr/bin/python
+
 import os
 import time
 from math import factorial
@@ -22,10 +24,13 @@ def main():
                         columns=sorted(token_dict.keys()))
 
     t = (factorial(len(token_dict.keys()) + 2 -
-                   1))//(2*factorial(len(token_dict.keys())-1))
+                   1)) // (2 * factorial(len(token_dict.keys()) - 1))
+
+    print("Starting check. This may take a while.")
+
     for c, pair in enumerate(fileuuids):
 
-        print(f"{c}/{t}" )
+        print(f"{c}/{t}")
         x, y = pair
         length_tiled_tokens = take_text_pattern(token_dict.get(x),
                                                 token_dict.get(y), 1)
@@ -47,8 +52,13 @@ def main():
     # create directory for CSVs if not already exist
 
     t = time.localtime()
-    dir_name = "".join([str(t.tm_year), "_", str(t.tm_mon), "_", str(t.tm_mday), "_",
-                        str(t.tm_min), "_", str(t.tm_sec)])
+    dir_name = "".join([
+        str(t.tm_year), "_",
+        str(t.tm_mon), "_",
+        str(t.tm_mday), "_",
+        str(t.tm_min), "_",
+        str(t.tm_sec)
+    ])
 
     if not os.path.isdir(dir_name):
 
@@ -68,4 +78,5 @@ def main():
     create_dendrograms.plot(dat2, dat2_fname, title="avg_ldd")
 
 
-main()
+if __name__ == '__main__':
+    main()
