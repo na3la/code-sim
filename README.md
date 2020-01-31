@@ -22,7 +22,7 @@ Tiling is implemented according to pseudocode of Karp-Rabin greedy string tiling
 ## To Run
 
 **Assumes source code files will contain an int uuid of length 6**
-example: 123456.c or abc123456def.c
+    - example: 123456.c or abc123456def.c
 
 - ``` pip install -r requirements.txt ```
 - ``` ./codesim ``` or ``` python codesim```
