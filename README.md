@@ -26,6 +26,7 @@ Tiling is implemented according to pseudocode of Karp-Rabin greedy string tiling
 
 - ``` pip install -r requirements.txt ```
 - ``` ./codesim ``` or ``` python codesim```
+- Enter path to folder containing source code samples.
 
 
 
