@@ -34,5 +34,5 @@ Tiling is implemented according to pseudocode of Karp-Rabin greedy string tiling
 
 * tc/ -> contains tokenization defs for C code.
 * gst/ -> contains greedy string tiling defs.
-* lib/ -> contains general utility files, currently only the distance metrics
-
+* lib/ -> contains general utility files, currently only the distance metrics.
+* visualize/ -> contains plotting function for dendrograms.
