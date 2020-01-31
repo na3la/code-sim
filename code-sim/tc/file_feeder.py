@@ -12,3 +12,4 @@ def _file_feeder(path_to_folder):
                     os.listdir(path_to_folder))
     except FileNotFoundError:
         print(f'FileNotFoundError: Check {path_to_folder} exists!')
+        exit()

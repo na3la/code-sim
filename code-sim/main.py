@@ -1,27 +1,31 @@
+import os
+import time
+from math import factorial
 from itertools import combinations_with_replacement
-
 import pandas as pd
 from sklearn import preprocessing
 
 import lib.distance_metrics as dm
 from gst.new_kr import take_text_pattern
 from tc.dict_builder import dict_builder
+from visualize import create_dendrograms
 
 
 def main():
 
-    token_dict, raw_dict = dict_builder()
+    token_dict, _ = dict_builder()
     fileuuids = combinations_with_replacement(token_dict.keys(), 2)
 
     dat = pd.DataFrame(index=sorted(token_dict.keys()),
                        columns=sorted(token_dict.keys()))
     dat2 = pd.DataFrame(index=sorted(token_dict.keys()),
                         columns=sorted(token_dict.keys()))
-    dat_diff = pd.DataFrame(index=sorted(token_dict.keys()),
-                            columns=sorted(token_dict.keys()))
 
-    for pair in fileuuids:
+    t = (factorial(len(token_dict.keys()) + 2 -
+                   1))//(2*factorial(len(token_dict.keys())-1))
+    for c, pair in enumerate(fileuuids):
 
+        print(f"{c}/{t}" )
         x, y = pair
         length_tiled_tokens = take_text_pattern(token_dict.get(x),
                                                 token_dict.get(y), 1)
@@ -40,16 +44,28 @@ def main():
 
     min_max_scaler.fit_transform(dat2)
 
-    dat.to_csv('ltt_ldd.csv', sep=',')
-    dat2.to_csv('avg_ltt.csv', sep=',')
-    dat_diff.to_csv('diff.csv', sep=',')
+    # create directory for CSVs if not already exist
 
-<<<<<<< HEAD:code-sim/main.py
+    t = time.localtime()
+    dir_name = "".join([str(t.tm_year), "_", str(t.tm_mon), "_", str(t.tm_mday), "_",
+                        str(t.tm_min), "_", str(t.tm_sec)])
 
-=======
-    f = open('diff_ratio.txt', 'w')
-    f.write(diff_ratio_check.__str__())
-    f.close()
-    
->>>>>>> c3ea865d9df046ed0a7cd04e5ee898a598445368:code-sim/__main__.py
+    if not os.path.isdir(dir_name):
+
+        try:
+            os.mkdir(dir_name)
+            print(f"Created {dir_name} for output files")
+
+        except Exception as e:
+            print(e)
+
+    dat_fname = os.path.join(dir_name, "ltt_ldd" + "." + "csv")
+    dat.to_csv(dat_fname, sep=",", index=False)
+    create_dendrograms.plot(dat, dat_fname, title="ltt_ldd")
+
+    dat2_fname = os.path.join(dir_name, "avg_ldd" + "." + "csv")
+    dat2.to_csv(dat2_fname, sep=",", index=False)
+    create_dendrograms.plot(dat2, dat2_fname, title="avg_ldd")
+
+
 main()

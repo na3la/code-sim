@@ -12,9 +12,10 @@ This function attempts to read a folder path from .csconfig.
 def _read_util():
     try:
         f = open('.csconfig', 'r')
+        path = f.read().strip()
+        f.close()
+        return path
     except OSError:
         print('Unable to open .csconfig')
+        exit()
 
-    path = f.read().strip()
-    f.close()
-    return path

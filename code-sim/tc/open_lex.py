@@ -23,5 +23,5 @@ def _open_lex(paths_to_file, uuid_list):
             uuid_list.append(re.search(r'\d{6}', name)[0])
             yield from caller(_str_format(txt), name)
         except FileNotFoundError:
-            print("could not find {}", path)
+            print(f"could not find {path}")
             exit()
