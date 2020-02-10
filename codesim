@@ -9,13 +9,13 @@ from sklearn import preprocessing
 
 import lib.distance_metrics as dm
 from gst.new_kr import take_text_pattern
-from tc.dict_builder import dict_builder
+from tc.dict_builder_update import dict_builder
 from visualize import create_dendrograms
 
 
 def main():
 
-    token_dict, _ = dict_builder()
+    token_dict = dict_builder()
     fileuuids = combinations_with_replacement(token_dict.keys(), 2)
 
     dat = pd.DataFrame(index=sorted(token_dict.keys()),
